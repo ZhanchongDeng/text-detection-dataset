@@ -3,11 +3,18 @@ Aggregate commonly used text detection datasets into a simplified COCO format.
 
 Supported Dataset:
 - [x] [ICDAR 2013](https://rrc.cvc.uab.es/?ch=2&com=introduction)
+    * mostly horizontal
+    * sometimes ignore smaller text
 - [x] [ICDAR 2015](https://rrc.cvc.uab.es/?ch=4&com=introduction)
+    * a lot of ### (meaning unrecognizable)
+    * image often taken while moving
+    * partial words incosistent
+    * upper/lower case error present (1 out of 50)
+    * recognize empty space
 - [ ] [COCO-Text](https://rrc.cvc.uab.es/?ch=5&com=downloads)
 - [ ] [ICDAR 2019 ArT](https://rrc.cvc.uab.es/?ch=14&com=downloads)
-- [ ] [TotalText*](https://github.com/cs-chan/Total-Text-Dataset)
-- [ ] [CTW-1500*](https://github.com/Yuliang-Liu/Curve-Text-Detector)
+- [ ] [TotalText^*^](https://github.com/cs-chan/Total-Text-Dataset)
+- [ ] [CTW-1500^*^](https://github.com/Yuliang-Liu/Curve-Text-Detector)
 - [ ] [MSRA-TD500](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500))
 - [ ] [ICDAR 2017 MLT](https://rrc.cvc.uab.es/?ch=8&com=introduction)
 - [ ] [SynthText](https://www.robots.ox.ac.uk/~vgg/data/scenetext/)

@@ -1,0 +1,3 @@
+[submodule "coco_text_api"]
+	path = coco_text_api
+	url = https://github.com/andreasveit/coco-text.git
