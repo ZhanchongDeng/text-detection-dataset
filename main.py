@@ -244,7 +244,7 @@ def inspect_dataset(dataset:str, num_images):
         num_images (int): number of images to visualize
     '''
     dataset_dir = Path(constants.RAW_DIR) / dataset
-    label_json_fp = dataset_dir / "dataset.json"
+    label_json_fp = Path(constants.JSON_DIR) / f"{dataset}.json"
     with label_json_fp.open("r") as f:  
         label_json = json.load(f)
 

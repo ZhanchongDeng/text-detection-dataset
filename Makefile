@@ -6,7 +6,7 @@ generate:
 
 inspect:
 	. venv/bin/activate && \
-	python3 main.py --inspect --verbose --num-images 20
+	python3 main.py --inspect --verbose --num-images 5
 
 configure:
 	python3 -m venv venv
