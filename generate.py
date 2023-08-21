@@ -4,14 +4,12 @@ from pathlib import Path
 import json
 import xml.etree.ElementTree as ET
 
-from PIL import Image, ImageDraw
-import cv2
 import numpy as np
 
 import coco_text_api.coco_text as coco_text
 import constants
 
-def main():
+def generate_all():
     # Converting all text detection dataset to COCO format (simplified)
     # [
     #     {
@@ -23,10 +21,8 @@ def main():
     #             }
     #         ]
     # ]
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--generate", action="store_true", help="Generate label json for all datasets")
-    parser.add_argument("--inspect", action="store_true", help="Inspect dataset")
-    parser.add_argument("--num-images", type=int, default=20, help="Number of images to inspect")
+    parser = argparse.ArgumentParser("Generate label json for all datasets in COCO format")
+    parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
     parser.add_argument("--verbose", action="store_true", help="Verbose logging")
     parser.add_argument("--silent", action="store_true", help="No logging")
     args = parser.parse_args()
@@ -37,34 +33,29 @@ def main():
         else:
             logging.basicConfig(level=logging.INFO)
 
-    if args.generate:
-        create_label_json(constants.IC13)
-        create_label_json(constants.IC15)
-        create_label_json(constants.COCO_TEXT)
-        create_label_json(constants.MSRA_TD500)
-        create_label_json(constants.SVT)
+    with open(args.config, "r") as f:
+        config = json.load(f)
 
-    if args.inspect:
-        inspect_dataset(constants.IC13, args.num_images)
-        inspect_dataset(constants.IC15, args.num_images)
-        inspect_dataset(constants.COCO_TEXT, args.num_images)
-        inspect_dataset(constants.MSRA_TD500, args.num_images)
-        inspect_dataset(constants.SVT, args.num_images)
+    for dataset_config in config["datasets"]:
+        generate_label_json(dataset_config)
 
-def create_label_json(dataset:str):
+def generate_label_json(dataset_config:dict):
     '''Create label json for dataset and save it to dataset.json.
     
     Args:
-        dataset (str): dataset name, e.g. ic13, ic15
+        dataset_config(dict): dictionary containing dataset name and path
+            should at least contain:
+                name, path
     '''
-    dataset_dir = Path(constants.RAW_DIR) / dataset
-    label_json_fp = Path(constants.JSON_DIR) / f"{dataset}.json"
+    dataset_name = dataset_config['name']
+    dataset_dir = Path(dataset_config['path'])
+    label_json_fp = Path(constants.JSON_DIR) / f"{dataset_name}.json"
     num_text_instances = 0
 
     # initialize empty json
     label_json = []
     
-    match(dataset):
+    match(dataset_name):
         case constants.IC13:
             for gt_fp in (dataset_dir).glob("*/*.txt"):
                 set_name = gt_fp.parent.name.split("_")[0]
@@ -166,7 +157,7 @@ def create_label_json(dataset:str):
                 )
 
         case constants.COCO_TEXT:
-            ct = coco_text.COCO_Text(dataset_dir / "COCO_Text.json")
+            ct = coco_text.COCO_Text(dataset_config['json_path'])
             images = ct.loadImgs(ct.getImgIds())
             coco_images_dir = dataset_dir / "images"
 
@@ -336,8 +327,8 @@ def create_label_json(dataset:str):
 
             
             
-    logging.info(f"{dataset} has {len(label_json)} images")
-    logging.info(f"{dataset} has {num_text_instances} text instances")
+    logging.info(f"{dataset_name} has {len(label_json)} images")
+    logging.info(f"{dataset_name} has {num_text_instances} text instances")
     
     if not label_json_fp.parent.exists():
         label_json_fp.parent.mkdir(parents=True)
@@ -345,33 +336,5 @@ def create_label_json(dataset:str):
     with label_json_fp.open("w") as f:
         json.dump(label_json, f, indent=4, sort_keys=True)
 
-
-def inspect_dataset(dataset:str, num_images):
-    '''Randomly select some images, visualize its text boxes and text.
-    
-    Args:
-        dataset (str): dataset name, e.g. ic13, ic15
-        num_images (int): number of images to visualize
-    '''
-    label_json_fp = Path(constants.JSON_DIR) / f"{dataset}.json"
-    with label_json_fp.open("r") as f:  
-        label_json = json.load(f)
-
-    num_total_images = len(label_json)
-    random_indices = np.random.choice(num_total_images, num_images, replace=False)
-    for i in random_indices:
-        image_path = label_json[i]["image_path"]
-        logging.info("gt_path: %s", label_json[i]["gt_path"])
-        boxes = label_json[i]["boxes"]
-        image = cv2.imread(image_path)
-        for box in boxes:
-            corners = np.array(box["corners"], dtype=np.int32)
-            cv2.polylines(image, [corners], True, (0, 255, 0), 2)
-            if "text" in box:
-                cv2.putText(image, box["text"], (corners[0][0], corners[0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
-        cv2.imshow(str(Path(image_path).name), image)
-        cv2.waitKey(0)
-        cv2.destroyAllWindows()
-
 if __name__ == "__main__":
-    main()
+    generate_all()

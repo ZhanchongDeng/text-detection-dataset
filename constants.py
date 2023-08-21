@@ -1,8 +1,8 @@
 RAW_DIR = "raw_data"
 JSON_DIR = "json_data"
 
-IC13 = "ICDAR13"
-IC15 = "ICDAR15"
+IC13 = "ICDAR2013"
+IC15 = "ICDAR2015"
 
 COCO_TEXT = "COCO_Text"
 COCO_TEXT_URL = "https://vision.cornell.edu/se3/wp-content/uploads/2019/05/COCO_Text.zip"
