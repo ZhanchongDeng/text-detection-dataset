@@ -1,31 +1,38 @@
 {
-    "datasets": [
-        {
-            "name": "ICDAR2013",
-            "path": "raw_data/ICDAR2013/",
-            "url": null
-        },
-        {
-            "name": "ICDAR2015",
-            "path": "raw_data/ICDAR2015/",
-            "url": null
-        },
-        {
-            "name": "COCO_Text",
-            "path": "raw_data/COCO_Text/",
-            "url": null,
-            "json_path": "raw_data/COCO_Text/COCO_Text.json",
-            "json_url": "https://vision.cornell.edu/se3/wp-content/uploads/2019/05/COCO_Text.zip"
-        },
-        {
-            "name": "MSRA-TD500",
-            "path": "raw_data/MSRA-TD500/",
-            "url": "http://www.iapr-tc11.org/dataset/MSRA-TD500/MSRA-TD500.zip"
-        },
-        {
-            "name": "SVT",
-            "path": "raw_data/SVT/",
-            "url": "http://www.iapr-tc11.org/dataset/SVT/svt.zip"
-        }
-    ]
+    "datasets": {
+        "ICDAR2013":
+            {
+                "path": "raw_data/ICDAR2013/",
+                "url": null
+            },
+        
+        "ICDAR2015": 
+            {
+                "path": "raw_data/ICDAR2015/",
+                "url": null
+            },
+        "COCO_Text": 
+            {
+                "path": "raw_data/COCO_Text/COCO_images",
+                "url": null,
+                "json_path": "raw_data/COCO_Text/COCO_Text.json",
+                "json_url": "https://vision.cornell.edu/se3/wp-content/uploads/2019/05/COCO_Text.zip"
+            },
+        "MSRA-TD500": 
+            {
+                "path": "raw_data/MSRA-TD500/",
+                "url": "http://www.iapr-tc11.org/dataset/MSRA-TD500/MSRA-TD500.zip"
+            },
+        "SVT": 
+            {
+                "path": "raw_data/SVT/",
+                "url": "http://www.iapr-tc11.org/dataset/SVT/svt.zip"
+            },
+        "ArT":
+            {
+                "path": "raw_data/ArT/train_images",
+                "url": null,
+                "json_path": "raw_data/ArT/train_labels.json"
+            }
+    }
 }

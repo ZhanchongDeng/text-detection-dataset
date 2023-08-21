@@ -12,3 +12,5 @@ MSRA_TD500_URL = "http://www.iapr-tc11.org/dataset/MSRA-TD500/MSRA-TD500.zip"
 
 SVT = "SVT"
 SVT_URL = "http://www.iapr-tc11.org/dataset/SVT/svt.zip"
+
+ART = "ArT"

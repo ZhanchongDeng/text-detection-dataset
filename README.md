@@ -25,11 +25,14 @@ Supported Dataset:
     * mostly horizontal
     * all CAPS
     * inconsistently ignore text on screen
-- [ ] [ICDAR 2017 MLT](https://rrc.cvc.uab.es/?ch=8&com=introduction)
+- [x] [ICDAR 2019 ArT](https://rrc.cvc.uab.es/?ch=14&com=downloads)
+    * 5049 images, 49179 text instances
+    * 20% illegible
+    * contains non English text
 - [ ] [SynthText](https://www.robots.ox.ac.uk/~vgg/data/scenetext/)
-- [ ] [ICDAR 2019 ArT](https://rrc.cvc.uab.es/?ch=14&com=downloads)
-- [ ] [TotalText^*^](https://github.com/cs-chan/Total-Text-Dataset)
-- [ ] [CTW-1500^*^](https://github.com/Yuliang-Liu/Curve-Text-Detector)
+- [ ] [ICDAR 2017 MLT](https://rrc.cvc.uab.es/?ch=8&com=introduction)
+    * mostly non English
+    * no differentiation
 
 \* TotalText and CTW-1500 are included in ArT dataset.
 ## Build

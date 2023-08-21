@@ -16,13 +16,14 @@ def generate_all():
     #         "image_path": str,
     #         "boxes": [
     #             {
-    #                 corners: [[x0, y0], [x1, y1], [x2, y2], [x3, y3]],
+    #                 corners: [[x0, y0], ..., [xn, yn]],
     #                 "text": str
     #             }
     #         ]
     # ]
-    parser = argparse.ArgumentParser("Generate label json for all datasets in COCO format")
+    parser = argparse.ArgumentParser("Generate label json for datasets in COCO format")
     parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
+    parser.add_argument("--dataset", type=str, default=None, nargs="*", help="List of dataset names to generate")
     parser.add_argument("--verbose", action="store_true", help="Verbose logging")
     parser.add_argument("--silent", action="store_true", help="No logging")
     args = parser.parse_args()
@@ -36,18 +37,25 @@ def generate_all():
     with open(args.config, "r") as f:
         config = json.load(f)
 
-    for dataset_config in config["datasets"]:
-        generate_label_json(dataset_config)
+    if args.dataset is None:
+        args.dataset = list(config["datasets"].keys())
+    
+    for dataset_name in args.dataset:
+        if dataset_name not in config['datasets']:
+            logging.error("Dataset name %s not in config", dataset_name)
+            continue
+        else:
+            dataset_config = config["datasets"][dataset_name]
+            generate_label_json(dataset_name, dataset_config)
 
-def generate_label_json(dataset_config:dict):
+def generate_label_json(dataset_name:str, dataset_config:dict):
     '''Create label json for dataset and save it to dataset.json.
     
     Args:
-        dataset_config(dict): dictionary containing dataset name and path
+        dataset_config(dict): dictionary containing dataset path and other metadata
             should at least contain:
-                name, path
+                path
     '''
-    dataset_name = dataset_config['name']
     dataset_dir = Path(dataset_config['path'])
     label_json_fp = Path(constants.JSON_DIR) / f"{dataset_name}.json"
     num_text_instances = 0
@@ -159,9 +167,9 @@ def generate_label_json(dataset_config:dict):
         case constants.COCO_TEXT:
             ct = coco_text.COCO_Text(dataset_config['json_path'])
             images = ct.loadImgs(ct.getImgIds())
-            coco_images_dir = dataset_dir / "images"
+            coco_images_dir = dataset_dir
 
-            num_no_annotations = 0
+            num_no_text = 0
             num_non_english = 0
             num_illegible = 0
             num_all_non_english = 0
@@ -177,7 +185,7 @@ def generate_label_json(dataset_config:dict):
                 annIds = ct.getAnnIds(imgIds=id)
                 anns = ct.loadAnns(annIds)
                 if len(anns) == 0:
-                    num_no_annotations += 1
+                    num_no_text += 1
                     continue
                     
                 boxes = []
@@ -216,10 +224,10 @@ def generate_label_json(dataset_config:dict):
                     }
                 )
 
-            logging.debug("Number of images with no annotations: %d", num_no_annotations)
-            logging.debug("Number of non-english annotations: %d", num_non_english)
-            logging.debug("Number of images without english annotations: %d", num_all_non_english)
-            logging.debug("Number of illegible annotations: %d", num_illegible)
+            logging.debug("Number of images with no text: %d", num_no_text)
+            logging.debug("Number of non-english text instances: %d", num_non_english)
+            logging.debug("Number of images without english text instances: %d", num_all_non_english)
+            logging.debug("Number of illegible text instances: %d", num_illegible)
 
         case constants.MSRA_TD500:
             for gt_fp in (dataset_dir).glob("*/*.gt"):
@@ -325,7 +333,53 @@ def generate_label_json(dataset_config:dict):
                         }
                     )
 
+        case constants.ART:
+            dataset_dir = Path(dataset_config['path'])
+            with open(dataset_config['json_path'], "r") as f:
+                train_json = json.load(f)
+
+            num_non_english = 0
+            num_all_non_english = 0
             
+            for img_id in train_json:
+                image_path = dataset_dir / (img_id + ".jpg")
+                # sanity check if image exists
+                if not image_path.exists():
+                    logging.error("Image %s does not exist", image_path)
+                
+                boxes = []
+                for box in train_json[img_id]:
+                    # Skip Chinese
+                    if box["language"] == "Chinese":
+                        num_non_english += 1
+                        continue
+                    # each box has n points
+                    corners = box["points"]
+                    text = box["transcription"]
+                    box_dict = {
+                        "corners": corners,
+                        "text": text,
+                    }
+                    boxes.append(box_dict)
+
+                # Skip if no english text
+                if len(boxes) == 0:
+                    num_all_non_english += 1
+                    continue
+                
+                num_text_instances += len(boxes)
+                label_json.append(
+                    {
+                        "image_path": str(image_path.absolute()),
+                        "boxes": boxes,
+                        "set": "train",
+                        "gt_path": str(dataset_dir / "ArT.json")
+                    }
+                )
+            
+            logging.debug("Number of images without english text instances: %d", num_all_non_english)
+            logging.debug("Number of non-english text instances: %d", num_non_english)
+
             
     logging.info(f"{dataset_name} has {len(label_json)} images")
     logging.info(f"{dataset_name} has {num_text_instances} text instances")

@@ -8,19 +8,9 @@ import numpy as np
 import constants
 
 def visualize_all():
-    # Converting all text detection dataset to COCO format (simplified)
-    # [
-    #     {
-    #         "image_path": str,
-    #         "boxes": [
-    #             {
-    #                 corners: [[x0, y0], [x1, y1], [x2, y2], [x3, y3]],
-    #                 "text": str
-    #             }
-    #         ]
-    # ]
     parser = argparse.ArgumentParser()
     parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
+    parser.add_argument("--dataset", type=str, default=None, nargs="*", help="List of dataset names to visualize")
     parser.add_argument("--num-images", type=int, default=20, help="Number of images to inspect")
     parser.add_argument("--verbose", action="store_true", help="Verbose logging")
     parser.add_argument("--silent", action="store_true", help="No logging")
@@ -35,8 +25,12 @@ def visualize_all():
     with open(args.config, "r") as f:
         config = json.load(f)
 
-    for dataset_config in config["datasets"]:
-        inspect_dataset(dataset_config["name"], args.num_images)
+    if args.dataset is None:
+        args.dataset = list(config["datasets"].keys())
+    
+    for dataset_name in args.dataset:
+        inspect_dataset(dataset_name, args.num_images)
+
 
 
 def inspect_dataset(dataset_name:str, num_images):
