@@ -10,16 +10,24 @@ Supported Dataset:
     * 1500 images, 17116 text instances 
     * a lot of ### (meaning unrecognizable)
     * image often taken while moving
-    * partial words incosistent
     * upper/lower case error present (1 out of 50)
-    * recognize empty space
+    * inconsistently bound space separated as one box
 - [x] [COCO-Text](https://rrc.cvc.uab.es/?ch=5&com=downloads)
     * 19938 images, 94711 text instances
     * half of the images does not have annotations
+- [x] [MSRA-TD500](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500))
+    * 500 images, 1719 text instances
+    * only for detection, no labeled text
+    * does not differentiate language
+    * inconsistently bound space separated as one box
+- [x] [SVT](http://www.iapr-tc11.org/mediawiki/index.php/The_Street_View_Text_Dataset)
+    * 349 images, 904 text instances
+    * mostly horizontal
+    * all CAPS
+    * inconsistently ignore text on screen
 - [ ] [ICDAR 2019 ArT](https://rrc.cvc.uab.es/?ch=14&com=downloads)
 - [ ] [TotalText^*^](https://github.com/cs-chan/Total-Text-Dataset)
 - [ ] [CTW-1500^*^](https://github.com/Yuliang-Liu/Curve-Text-Detector)
-- [ ] [MSRA-TD500](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500))
 - [ ] [ICDAR 2017 MLT](https://rrc.cvc.uab.es/?ch=8&com=introduction)
 - [ ] [SynthText](https://www.robots.ox.ac.uk/~vgg/data/scenetext/)
 

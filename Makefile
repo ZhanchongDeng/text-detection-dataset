@@ -1,4 +1,4 @@
-BUILD_DIR=build
+BUILD_DIR=json_data
 
 generate:
 	. venv/bin/activate && \
@@ -6,7 +6,7 @@ generate:
 
 inspect:
 	. venv/bin/activate && \
-	python3 main.py --inspect --verbose --num-images 5
+	python3 main.py --inspect --verbose --num-images 3
 
 configure:
 	python3 -m venv venv
