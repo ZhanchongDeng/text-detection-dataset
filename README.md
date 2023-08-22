@@ -29,7 +29,10 @@ Supported Dataset:
     * 5049 images, 49179 text instances
     * 20% illegible
     * contains non English text
-- [ ] [TextOCR](https://textvqa.org/textocr/dataset/)
+- [x] [TextOCR](https://textvqa.org/textocr/dataset/)
+    * 24902 images, 1202339 text instances
+    * does not differentiate between illegible/non-english
+    * inconsistent partial word crop (word??? can be detect with box only including word??, missing the last ?)
 - [ ] [SynthText](https://www.robots.ox.ac.uk/~vgg/data/scenetext/)
 - [ ] [ICDAR 2017 MLT](https://rrc.cvc.uab.es/?ch=8&com=introduction)
     * mostly non English

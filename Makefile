@@ -2,11 +2,11 @@ BUILD_DIR=build
 
 generate:
 	. venv/bin/activate && \
-	python3 generate.py --verbose
+	python3 generate.py --verbose --dataset TextOCR
 
 visualize:
 	. venv/bin/activate && \
-	python3 visualize.py --verbose --num-images 20 --dataset ArT
+	python3 visualize.py --verbose --num-images 20 --dataset TextOCR
 
 download:
 	. venv/bin/activate && \

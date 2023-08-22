@@ -384,21 +384,28 @@ def generate_label_json(dataset_name:str, dataset_config:dict):
             dataset_dir = Path(dataset_config['path'])
             # iterate through all the json
             for json_fp in (dataset_dir).glob("*.json"):
-                set_name = json_fp.stem.split("_")[-1]
                 with json_fp.open("r") as f:
                     json_data = json.load(f)
                 
-                for img_id in json_data:
-                    image_path = dataset_dir / json_data[img_id]['file_name']
+                for img_id in json_data['imgs']:
+                    image_path = dataset_dir / json_data['imgs'][img_id]['file_name']
+                    set_name = json_data['imgs'][img_id]['set']
                     # sanity check if image exists
                     if not image_path.exists():
                         logging.error("Image %s does not exist", image_path)
                     
                     boxes = []
-                    for box in json_data[img_id]:
-                        # each box has n points
-                        corners = box["points"]
-                        text = box["transcription"]
+
+                    for anns_id in json_data["imgToAnns"][img_id]:
+                        annotation = json_data['anns'][anns_id]
+                        # annotation['points'] is 2N, format it into N, 2
+                        corners = np.array(annotation['points']).reshape(-1, 2).tolist()
+                        text = annotation['utf8_string']
+
+                        # illegible or different language
+                        if text == ".":
+                            text = "###"
+
                         box_dict = {
                             "corners": corners,
                             "text": text,
