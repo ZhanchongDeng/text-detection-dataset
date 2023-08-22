@@ -14,3 +14,5 @@ SVT = "SVT"
 SVT_URL = "http://www.iapr-tc11.org/dataset/SVT/svt.zip"
 
 ART = "ArT"
+
+TEXTOCR = "TextOCR"

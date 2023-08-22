@@ -33,6 +33,16 @@
                 "path": "raw_data/ArT/train_images",
                 "url": null,
                 "json_path": "raw_data/ArT/train_labels.json"
+            },
+        "TextOCR":
+            {
+                "path": "raw_data/TextOCR/",
+                "url": null,
+                "json_urls": [
+                    "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_train.json",
+                    "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_val.json",
+                    "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_test.json"
+                ]
             }
     }
 }

@@ -380,6 +380,41 @@ def generate_label_json(dataset_name:str, dataset_config:dict):
             logging.debug("Number of images without english text instances: %d", num_all_non_english)
             logging.debug("Number of non-english text instances: %d", num_non_english)
 
+        case constants.TEXTOCR:
+            dataset_dir = Path(dataset_config['path'])
+            # iterate through all the json
+            for json_fp in (dataset_dir).glob("*.json"):
+                set_name = json_fp.stem.split("_")[-1]
+                with json_fp.open("r") as f:
+                    json_data = json.load(f)
+                
+                for img_id in json_data:
+                    image_path = dataset_dir / json_data[img_id]['file_name']
+                    # sanity check if image exists
+                    if not image_path.exists():
+                        logging.error("Image %s does not exist", image_path)
+                    
+                    boxes = []
+                    for box in json_data[img_id]:
+                        # each box has n points
+                        corners = box["points"]
+                        text = box["transcription"]
+                        box_dict = {
+                            "corners": corners,
+                            "text": text,
+                        }
+                        boxes.append(box_dict)
+
+                    num_text_instances += len(boxes)
+                    label_json.append(
+                        {
+                            "image_path": str(image_path.absolute()),
+                            "boxes": boxes,
+                            "set": set_name,
+                            "gt_path": str(json_fp.absolute())
+                        }
+                    )
+
             
     logging.info(f"{dataset_name} has {len(label_json)} images")
     logging.info(f"{dataset_name} has {num_text_instances} text instances")
