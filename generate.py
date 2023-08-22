@@ -24,6 +24,7 @@ def generate_all():
     parser = argparse.ArgumentParser("Generate label json for datasets in COCO format")
     parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
     parser.add_argument("--dataset", type=str, default=None, nargs="*", help="List of dataset names to generate")
+    parser.add_argument("--build-dir", type=str, default="build", help="Path to build directory")
     parser.add_argument("--verbose", action="store_true", help="Verbose logging")
     parser.add_argument("--silent", action="store_true", help="No logging")
     args = parser.parse_args()
@@ -46,18 +47,20 @@ def generate_all():
             continue
         else:
             dataset_config = config["datasets"][dataset_name]
-            generate_label_json(dataset_name, dataset_config)
+            generate_label_json(args.build_dir, dataset_name, dataset_config)
 
-def generate_label_json(dataset_name:str, dataset_config:dict):
+def generate_label_json(build_dir:str, dataset_name:str, dataset_config:dict):
     '''Create label json for dataset and save it to dataset.json.
     
     Args:
+        build_dir (str): path to build directory
+        dataset_name (str): name of the dataset
         dataset_config(dict): dictionary containing dataset path and other metadata
             should at least contain:
                 path
     '''
     dataset_dir = Path(dataset_config['path'])
-    label_json_fp = Path(constants.JSON_DIR) / f"{dataset_name}.json"
+    label_json_fp = Path(build_dir) / constants.JSON_DIR / f"{dataset_name}.json"
     num_text_instances = 0
 
     # initialize empty json

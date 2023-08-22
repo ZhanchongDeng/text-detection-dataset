@@ -3,3 +3,5 @@ numpy
 matplotlib
 opencv-python
 wget
+pandas
+tabulate

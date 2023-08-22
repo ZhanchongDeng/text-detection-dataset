@@ -12,7 +12,7 @@ Supported Dataset:
     * image often taken while moving
     * upper/lower case error present (1 out of 50)
     * inconsistently bound space separated as one box
-- [x] [COCO-Text](https://rrc.cvc.uab.es/?ch=5&com=downloads)
+- [x] [COCO-Text](https://vision.cornell.edu/se3/coco-text-2/)
     * 19938 images, 94711 text instances
     * half of the images does not have annotations
 - [x] [MSRA-TD500](http://www.iapr-tc11.org/mediawiki/index.php/MSRA_Text_Detection_500_Database_(MSRA-TD500))
@@ -39,6 +39,18 @@ Supported Dataset:
     * no differentiation
 
 \* TotalText and CTW-1500 are included in ArT dataset.
+
+## Result
+| dataset_name   |   num_images |   num_text_instances |   num_illegible |   percent_legible |   avg_text_per_image |
+|:---------------|-------------:|---------------------:|----------------:|------------------:|---------------------:|
+| SVT            |          349 |                  904 |               0 |          1        |              2.59026 |
+| ICDAR2013      |          462 |                 1944 |               0 |          1        |              4.20779 |
+| MSRA-TD500     |          500 |                 1719 |               0 |          1        |              3.438   |
+| ICDAR2015      |         1500 |                17116 |           10571 |          0.382391 |             11.4107  |
+| ArT            |         5049 |                49179 |           12900 |          0.737693 |              9.74034 |
+| COCO_Text      |        19938 |                94711 |           10778 |          0.886201 |              4.75028 |
+| TextOCR        |        24902 |              1202339 |          379767 |          0.684143 |             48.2828  |
+
 ## Build
 First clone the repo,
 ```

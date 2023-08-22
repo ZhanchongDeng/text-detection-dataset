@@ -12,6 +12,7 @@ def visualize_all():
     parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
     parser.add_argument("--dataset", type=str, default=None, nargs="*", help="List of dataset names to visualize")
     parser.add_argument("--num-images", type=int, default=20, help="Number of images to inspect")
+    parser.add_argument("--build-dir", type=str, default="build", help="Path to build directory")
     parser.add_argument("--verbose", action="store_true", help="Verbose logging")
     parser.add_argument("--silent", action="store_true", help="No logging")
     args = parser.parse_args()
@@ -29,18 +30,19 @@ def visualize_all():
         args.dataset = list(config["datasets"].keys())
     
     for dataset_name in args.dataset:
-        inspect_dataset(dataset_name, args.num_images)
+        inspect_dataset(args.build_dir, dataset_name, args.num_images)
 
 
 
-def inspect_dataset(dataset_name:str, num_images):
+def inspect_dataset(build_dir:str, dataset_name:str, num_images):
     '''Randomly select some images, visualize its text boxes and text.
     
     Args:
+        build_dir (str): path to build directory
         dataset_name (str): name of the dataset
         num_images (int): number of images to visualize
     '''
-    label_json_fp = Path(constants.JSON_DIR) / f"{dataset_name}.json"
+    label_json_fp = Path(build_dir) / constants.JSON_DIR / f"{dataset_name}.json"
     with label_json_fp.open("r") as f:  
         label_json = json.load(f)
 

@@ -2,11 +2,15 @@ BUILD_DIR=build
 
 generate:
 	. venv/bin/activate && \
-	python3 generate.py --verbose --dataset TextOCR
+	python3 generate.py --build-dir $(BUILD_DIR) --silent
 
 visualize:
 	. venv/bin/activate && \
-	python3 visualize.py --verbose --num-images 20 --dataset TextOCR
+	python3 visualize.py --build-dir $(BUILD_DIR) --silent --num-images 20 --dataset TextOCR
+
+report:
+	. venv/bin/activate && \
+	python3 report.py --build-dir $(BUILD_DIR)
 
 download:
 	. venv/bin/activate && \
@@ -21,4 +25,4 @@ unconfigure:
 	rm -rf venv
 
 clean:
-	rm -rf json_data
+	rm -rf $(BUILD_DIR)
