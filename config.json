@@ -37,12 +37,17 @@
         "TextOCR":
             {
                 "path": "raw_data/TextOCR/",
-                "url": null,
+                "url": "https://dl.fbaipublicfiles.com/textvqa/images/train_val_images.zip",
                 "json_urls": [
                     "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_train.json",
                     "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_val.json",
                     "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_test.json"
                 ]
+            },
+        "UberText":
+            {
+                "path": "raw_data/UberText/",
+                "url": "https://s3-us-west-2.amazonaws.com/uber-common-public/ubertext/Uber-Text.zip"
             }
     }
 }

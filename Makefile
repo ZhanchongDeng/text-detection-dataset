@@ -6,7 +6,7 @@ generate:
 
 visualize:
 	. venv/bin/activate && \
-	python3 visualize.py --build-dir $(BUILD_DIR) --silent --num-images 20 --dataset TextOCR
+	python3 visualize.py --build-dir $(BUILD_DIR) --verbose --num-images 10 --dataset UberText
 
 report:
 	. venv/bin/activate && \

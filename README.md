@@ -33,6 +33,10 @@ Supported Dataset:
     * 24902 images, 1202339 text instances
     * does not differentiate between illegible/non-english
     * inconsistent partial word crop (word??? can be detect with box only including word??, missing the last ?)
+- [x] [UberText](https://s3-us-west-2.amazonaws.com/uber-common-public/ubertext/index.html)
+    * 117969 images, 571534 text instances
+    * inconsistently bound space separated as one box
+    * contains partial illegible text
 - [ ] [SynthText](https://www.robots.ox.ac.uk/~vgg/data/scenetext/)
 - [ ] [ICDAR 2017 MLT](https://rrc.cvc.uab.es/?ch=8&com=introduction)
     * mostly non English

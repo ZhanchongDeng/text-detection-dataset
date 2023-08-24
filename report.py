@@ -26,6 +26,7 @@ def generate_report():
         num_images = len(dataset_json)
         num_text_instances = 0
         num_illegible = 0
+        num_partial_illegible = 0 # only available for Uber-Text
 
         for image in dataset_json:
             num_text_instances += len(image["boxes"])
@@ -33,24 +34,32 @@ def generate_report():
                 # MSRA_TD500 has no recognition, ignore illegible counts
                 if dataset_name != constants.MSRA_TD500 and box['text'] == "###":
                     num_illegible += 1
-        
-        percent_legible = (num_text_instances - num_illegible) / num_text_instances
-        avg_text_per_image = num_text_instances / num_images
+                # Uber-Text has partial illegible
+                if dataset_name == constants.UBERTEXT and ("###" in box['text']) and (box['text'] != "###"):
+                    num_partial_illegible += 1
 
         dataset_summary.append({
             "dataset_name": dataset_name,
             "num_images": num_images,
             "num_text_instances": num_text_instances,
             "num_illegible": num_illegible,
-            "percent_legible": percent_legible,
-            "avg_text_per_image": avg_text_per_image
+            "num_partial_illegible": num_partial_illegible,
         })
 
     df_report = pd.DataFrame(dataset_summary).sort_values(by="num_images")
-    df_report.to_csv(report_fp, index=False)
+    # set dataset_name as index
+    df_report.set_index("dataset_name", inplace=True)
+    # sum each column except average
+    df_report.loc["Total"] = df_report.sum(numeric_only=True)
+    #percent_legible = (num_text_instances - num_illegible - num_partial_illegible) / num_text_instances
+    #avg_text_per_image = num_text_instances / num_images
+    df_report['percent_legible'] = (df_report['num_text_instances'] - df_report['num_illegible'] - df_report['num_partial_illegible']) / df_report['num_text_instances']
+    df_report['avg_text_per_image'] = df_report['num_text_instances'] / df_report['num_images']
+    # write produce csv
+    df_report.to_csv(report_fp, index=True)
     # write produce markdown
     with report_md.open("w") as f:
-        f.write(df_report.to_markdown(index=False))
+        f.write(df_report.to_markdown(index=True))
 
 
 if __name__ == "__main__":

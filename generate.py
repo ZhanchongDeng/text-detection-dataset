@@ -4,6 +4,7 @@ from pathlib import Path
 import json
 import xml.etree.ElementTree as ET
 
+import cv2
 import numpy as np
 
 import coco_text_api.coco_text as coco_text
@@ -406,6 +407,7 @@ def generate_label_json(build_dir:str, dataset_name:str, dataset_config:dict):
                         text = annotation['utf8_string']
 
                         # illegible or different language
+                        # only when text is "." it means illegible
                         if text == ".":
                             text = "###"
 
@@ -424,6 +426,63 @@ def generate_label_json(build_dir:str, dataset_name:str, dataset_config:dict):
                             "gt_path": str(json_fp.absolute())
                         }
                     )
+
+        case constants.UBERTEXT:
+            dataset_dir = Path(dataset_config['path'])
+            num_illegible = 0
+            num_partial_illegible = 0
+
+            for set in dataset_dir.iterdir():
+                if not set.is_dir():
+                    continue
+                set_name = set.name
+                # iterate all the .txt
+                for txt_fp in set.glob("*/*.txt"):
+                    image_path = txt_fp.parent / (txt_fp.stem.replace("truth_", "") + ".jpg")
+                    # sanity check if image exists
+                    if not image_path.exists():
+                        logging.error("Image %s does not exist", image_path)
+                    
+                    boxes = []
+                    with txt_fp.open("r") as f:
+                        lines = f.read().split("\n")
+                    for line in lines:
+                        if line == "":
+                            continue
+                        # line is tab separated into [space separated points, text, text_type]
+                        box_str, text, text_type = [x for x in line.split('\t')]
+                        # box is space separated into [x0, y0, ... xn, yn]
+                        box = [int(x) for x in box_str.split(" ")]
+                        # reformat box[:-2] into N by 2
+                        corners = np.array(box[:-2]).reshape(-1, 2).tolist()
+                        # text contains "*" meaning illegible
+                        if "*" in text:
+                            if text != "*":
+                                num_partial_illegible += 1
+                            else:
+                                num_illegible += 1
+                        
+                        text = text.replace("*", "###")
+                        
+                        box_dict = {
+                            "corners": corners,
+                            "text": text,
+                            "text_type": text_type
+                        }
+                        boxes.append(box_dict)
+
+                    num_text_instances += len(boxes)
+                    label_json.append(
+                        {
+                            "image_path": str(image_path.absolute()),
+                            "boxes": boxes,
+                            "set": set_name,
+                            "gt_path": str(txt_fp.absolute())
+                        }
+                    )
+
+            logging.debug("Number of fully illegible text instances: %d", num_illegible)
+            logging.debug("Number of partial illegible text instances: %d", num_partial_illegible)
 
             
     logging.info(f"{dataset_name} has {len(label_json)} images")
