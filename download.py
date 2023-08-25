@@ -5,6 +5,8 @@ import wget
 import zipfile
 import logging
 
+import constants
+
 def download_all():
     parser = argparse.ArgumentParser(description="Download datasets for training")
     parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
@@ -12,7 +14,7 @@ def download_all():
     parser.add_argument("--verbose", action="store_true", help="Print verbose output")
     args = parser.parse_args()
 
-    config_fp = Path(args.config)
+    config_fp = Path(constants.CONFIG_DIR) / args.config
     if not config_fp.exists():
         # TODO: create example config file
         # Warn user to fill out required fields

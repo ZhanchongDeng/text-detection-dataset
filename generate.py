@@ -36,7 +36,8 @@ def generate_all():
         else:
             logging.basicConfig(level=logging.INFO)
 
-    with open(args.config, "r") as f:
+    config_path = Path(constants.CONFIG_DIR) / args.config
+    with open(config_path, "r") as f:
         config = json.load(f)
 
     if args.dataset is None:

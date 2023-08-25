@@ -2,11 +2,11 @@ BUILD_DIR=build
 
 generate:
 	. venv/bin/activate && \
-	python3 generate.py --build-dir $(BUILD_DIR) --silent
+	python3 generate.py --build-dir $(BUILD_DIR) --silent --config config.json
 
 visualize:
 	. venv/bin/activate && \
-	python3 visualize.py --build-dir $(BUILD_DIR) --verbose --num-images 10 --dataset UberText
+	python3 visualize.py --build-dir $(BUILD_DIR) --silent --num-images 10 --config config.json
 
 report:
 	. venv/bin/activate && \

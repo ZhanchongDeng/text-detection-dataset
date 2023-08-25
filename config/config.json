@@ -14,9 +14,10 @@
         "COCO_Text": 
             {
                 "path": "raw_data/COCO_Text/COCO_images",
-                "url": null,
+                "url": "http://images.cocodataset.org/zips/train2014.zip",
                 "json_path": "raw_data/COCO_Text/COCO_Text.json",
-                "json_url": "https://vision.cornell.edu/se3/wp-content/uploads/2019/05/COCO_Text.zip"
+                "json_url": "https://vision.cornell.edu/se3/wp-content/uploads/2019/05/COCO_Text.zip",
+                "json_url2": "https://github.com/bgshih/cocotext/releases/download/dl/cocotext.v2.zip"
             },
         "MSRA-TD500": 
             {

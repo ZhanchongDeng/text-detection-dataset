@@ -1,4 +1,4 @@
-# Text Detection Dataset
+# :eyes: Text Detection Dataset
 Aggregate commonly used text detection datasets into a simplified COCO format.
 
 Supported Dataset:
@@ -44,7 +44,7 @@ Supported Dataset:
 
 \* TotalText and CTW-1500 are included in ArT dataset.
 
-## Result
+## :1234: Result
 | dataset_name   |   num_images |   num_text_instances |   num_illegible |   num_partial_illegible |   percent_legible |   avg_text_per_image |
 |:---------------|-------------:|---------------------:|----------------:|------------------------:|------------------:|---------------------:|
 | SVT            |          349 |        904           |               0 |                       0 |          1        |              2.59026 |
@@ -57,10 +57,10 @@ Supported Dataset:
 | UberText       |       117969 |     571534           |          252181 |                   48401 |          0.474079 |              4.84478 |
 | Total          |       170669 |          1.93945e+06 |          666197 |                   48401 |          0.631545 |             11.3638  |
 
-## Build
+## :hammer_and_wrench: Build
 First clone the repo,
 ```
-git clone --recursive git@github.com:eyepop-ai/text-detection-dataset.git
+git clone --recursive git@github.com:ZhanchongDeng/text-detection-dataset.git
 ```
 and install the necessary packages
 ```

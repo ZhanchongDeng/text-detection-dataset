@@ -1,5 +1,6 @@
 RAW_DIR = "raw_data"
 JSON_DIR = "json_data"
+CONFIG_DIR = "config"
 
 IC13 = "ICDAR2013"
 IC15 = "ICDAR2015"

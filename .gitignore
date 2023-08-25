@@ -133,5 +133,5 @@ dmypy.json
 
 # caches
 raw_data/
-json_data/
+.DS_Store
 COCO_images/
