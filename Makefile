@@ -12,6 +12,10 @@ report:
 	. venv/bin/activate && \
 	python3 report.py --build-dir $(BUILD_DIR)
 
+preprocess:
+	. venv/bin/activate && \
+	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/tmp
+
 download:
 	. venv/bin/activate && \
 	python3 download.py --verbose --build-dir $(BUILD_DIR)

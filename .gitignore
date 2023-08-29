@@ -131,6 +131,9 @@ dmypy.json
 #IDEs
 .idea/
 
+# VsCode
+.vscode/
+
 # caches
 raw_data/
 .DS_Store
