@@ -1,6 +1,30 @@
 # :eyes: Text Detection Dataset
 Aggregate commonly used text detection datasets into a simplified COCO format.
 
+```python
+json_file
+[image_obj]
+
+image_obj
+{
+   "image_path": str,
+   "set": ["train", "val", "test],
+   "boxex": [boxes_obj],
+   "gt_path": str, # for debug
+}
+
+# actually a polygon
+boxes_obj:
+{
+   "text": str,
+   "corners": [
+      [x0, y0],
+      ...
+      [xn, yn]
+   ]
+}
+```
+
 Supported Dataset:
 - [x] [ICDAR 2013](https://rrc.cvc.uab.es/?ch=2&com=introduction)
     * 462 images, 1944 text instances
