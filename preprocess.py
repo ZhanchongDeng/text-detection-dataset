@@ -11,6 +11,7 @@ import constants
 def main():
     parser = argparse.ArgumentParser("Resize images and bounding polygon to 640 x 640")
     parser.add_argument('--data-dir', type=str, required=True, help="Directory to save the new data")
+    parser.add_argument("--config", type=str, default="config.json", help="Path to config file")
     parser.add_argument('--build-dir', type=str, default='build', help="Directory to save created files")
     parser.add_argument("--dataset", type=str, default=None, nargs="*", help="List of dataset names to generate")
     parser.add_argument("--train-size", type=float, default=0.8, help="Percentage of data to use for training")
@@ -18,8 +19,12 @@ def main():
 
     args = parser.parse_args()
 
+    config_path = Path(constants.CONFIG_DIR) / args.config
+    with open(config_path, "r") as f:
+        config = json.load(f)
+
     if args.dataset is None:
-        args.dataset = ['ArT', 'COCO_Text', 'ICDAR2013', 'ICDAR2015', 'MSRA-TD500', 'SVT', 'TextOCR', 'UberText']
+        args.dataset = list(config["datasets"].keys())
     
     for dataset in args.dataset:
         preprocess_dataset(args.data_dir, args.build_dir, dataset, args.train_size, args.seed)
