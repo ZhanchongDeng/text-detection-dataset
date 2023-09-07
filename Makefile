@@ -6,7 +6,7 @@ generate:
 
 visualize:
 	. venv/bin/activate && \
-	python3 visualize.py --build-dir $(BUILD_DIR) --silent --num-images 10 --config config.json
+	python3 visualize.py --build-dir $(BUILD_DIR) --silent --num-images 10 --config config.json --dataset MSRA-TD500
 
 report:
 	. venv/bin/activate && \
@@ -14,7 +14,7 @@ report:
 
 preprocess:
 	. venv/bin/activate && \
-	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/tmp
+	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/resized_td_dataset
 
 download:
 	. venv/bin/activate && \

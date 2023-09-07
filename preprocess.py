@@ -13,6 +13,8 @@ def main():
     parser.add_argument('--data-dir', type=str, required=True, help="Directory to save the new data")
     parser.add_argument('--build-dir', type=str, default='build', help="Directory to save created files")
     parser.add_argument("--dataset", type=str, default=None, nargs="*", help="List of dataset names to generate")
+    parser.add_argument("--train-size", type=float, default=0.8, help="Percentage of data to use for training")
+    parser.add_argument("--seed", type=int, default=2023, help="Random seed")
 
     args = parser.parse_args()
 
@@ -20,9 +22,9 @@ def main():
         args.dataset = ['ArT', 'COCO_Text', 'ICDAR2013', 'ICDAR2015', 'MSRA-TD500', 'SVT', 'TextOCR', 'UberText']
     
     for dataset in args.dataset:
-        preprocess_dataset(args.data_dir, args.build_dir, dataset)
+        preprocess_dataset(args.data_dir, args.build_dir, dataset, args.train_size, args.seed)
 
-def preprocess_dataset(data_dir, build_dir, dataset):
+def preprocess_dataset(data_dir, build_dir, dataset, train_size, seed = 0):
     to_width = 640
     to_height = 640
 
@@ -33,6 +35,11 @@ def preprocess_dataset(data_dir, build_dir, dataset):
     # new json path
     new_json_path = Path(data_dir) / constants.JSON_DIR / f'{json_path.stem}.json'
 
+    # randomly select 80% of the data for training
+    np.random.seed(seed)
+    np.random.shuffle(json_data)
+    train_size = int(len(json_data) * train_size)
+
     idx = 0
     for entry in json_data:
         old_path = Path(entry['image_path'])
@@ -41,7 +48,8 @@ def preprocess_dataset(data_dir, build_dir, dataset):
 
         image_scaled = cv2.resize(image, (to_width, to_height))
         # save image to new path
-        new_path = Path(data_dir) / json_path.stem / f'{idx}.jpg'
+        set_name = 'train' if idx < train_size else 'test'
+        new_path = Path(data_dir) / set_name / f'{json_path.stem}_{idx}.jpg'
         new_path.parent.mkdir(parents=True, exist_ok=True)
         cv2.imwrite(str(new_path), image_scaled)
 
@@ -55,7 +63,7 @@ def preprocess_dataset(data_dir, build_dir, dataset):
         # modify json_data
         entry['image_path'] = str(new_path.absolute())
         entry['boxes'] = new_boxes
-
+        entry['set'] = set_name
         idx += 1
     
     # save the new json
