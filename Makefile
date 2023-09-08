@@ -1,9 +1,9 @@
-BUILD_DIR=build
-CONFIG_FILE=config.json
+BUILD_DIR=/workspace/bobby/build/
+CONFIG_FILE=runpod.json
 
 generate:
 	. venv/bin/activate && \
-	python3 generate.py --build-dir $(BUILD_DIR) --silent --config $(CONFIG_FILE)
+	python3 generate.py --build-dir $(BUILD_DIR) --verbose --config $(CONFIG_FILE) --dataset COCO_Text
 
 visualize:
 	. venv/bin/activate && \
@@ -15,7 +15,7 @@ report:
 
 preprocess:
 	. venv/bin/activate && \
-	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/resized_td_dataset --config $(CONFIG_FILE)
+	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir /workspace/bobby/resized_td_dataset --config $(CONFIG_FILE) --dataset ICDAR2013 ICDAR2015 ArT SVT MSRA-TD500 TextOCR
 
 download:
 	. venv/bin/activate && \

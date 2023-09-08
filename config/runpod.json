@@ -1,0 +1,54 @@
+{
+    "datasets": {
+        "ICDAR2013":
+            {
+                "path": "/workspace/bobby/raw_td_dataset/ICDAR2013/",
+                "url": null
+            },
+        
+        "ICDAR2015": 
+            {
+                "path": "/workspace/bobby/raw_td_dataset/ICDAR2015/",
+                "url": null
+            },
+        "COCO_Text": 
+            {
+                "path": "/workspace/bobby/raw_td_dataset/COCO_Text/train2014/",
+                "url": "http://images.cocodataset.org/zips/train2014.zip",
+                "json_path": "/workspace/bobby/raw_td_dataset/COCO_Text/COCO_Text.json",
+                "json_url": "https://vision.cornell.edu/se3/wp-content/uploads/2019/05/COCO_Text.zip",
+                "json_url2": "https://github.com/bgshih/cocotext/releases/download/dl/cocotext.v2.zip"
+            },
+        "MSRA-TD500": 
+            {
+                "path": "/workspace/bobby/raw_td_dataset/MSRA-TD500/",
+                "url": "http://www.iapr-tc11.org/dataset/MSRA-TD500/MSRA-TD500.zip"
+            },
+        "SVT": 
+            {
+                "path": "/workspace/bobby/raw_td_dataset/SVT/",
+                "url": "http://www.iapr-tc11.org/dataset/SVT/svt.zip"
+            },
+        "ArT":
+            {
+                "path": "/workspace/bobby/raw_td_dataset/ArT/train_images",
+                "url": null,
+                "json_path": "/workspace/bobby/raw_td_dataset/ArT/train_labels.json"
+            },
+        "TextOCR":
+            {
+                "path": "/workspace/bobby/raw_td_dataset/TextOCR/",
+                "url": "https://dl.fbaipublicfiles.com/textvqa/images/train_val_images.zip",
+                "json_urls": [
+                    "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_train.json",
+                    "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_val.json",
+                    "https://dl.fbaipublicfiles.com/textvqa/data/textocr/TextOCR_0.1_test.json"
+                ]
+            },
+        "UberText":
+            {
+                "path": "/workspace/bobby/raw_td_dataset/UberText/",
+                "url": "https://s3-us-west-2.amazonaws.com/uber-common-public/ubertext/Uber-Text.zip"
+            }
+    }
+}
