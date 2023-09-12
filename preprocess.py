@@ -61,8 +61,10 @@ def preprocess_dataset(data_dir, build_dir, dataset, train_size, seed = 0):
         new_boxes = []
         for box in entry['boxes']:
             corners = np.array(box['corners'])
-            corners_rescaled = (corners * np.array([to_width / from_width, to_height / from_height])).tolist()
-            box['corners'] = corners_rescaled
+            corners_rescaled = (corners * np.array([to_width / from_width, to_height / from_height]))
+            # limit x and y to be within the image
+            corners_rescaled = np.where(corners_rescaled > np.array([to_width, to_height]), np.array([to_width, to_height]), corners_rescaled)
+            box['corners'] = corners_rescaled.tolist()
             new_boxes.append(box)
         
         # modify json_data
@@ -75,14 +77,6 @@ def preprocess_dataset(data_dir, build_dir, dataset, train_size, seed = 0):
     new_json_path.parent.mkdir(parents=True, exist_ok=True)
     with new_json_path.open('w') as f:
         json.dump(json_data, f, indent=4)
-    # # show imagge with polygon before rescaling
-    # cv2.polylines(image, np.array(boxes), True, (0, 255, 0), 2)
-    # cv2.imshow('before', image)
-    # cv2.waitKey(0)
-    # # draw polygon on image
-    # cv2.polylines(image_scaled, np.array(boxes_rescaled), True, (0, 255, 0), 2)
-    # cv2.imshow('after', image_scaled)
-    # cv2.waitKey(0)
 
 if __name__ == '__main__':
     main()

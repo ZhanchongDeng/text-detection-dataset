@@ -3,6 +3,8 @@ import json
 from pathlib import Path
 
 import pandas as pd
+import numpy as np
+from PIL import Image
 
 import constants
 
@@ -37,6 +39,15 @@ def generate_report():
                 # Uber-Text has partial illegible
                 if dataset_name == constants.UBERTEXT and ("###" in box['text']) and (box['text'] != "###"):
                     num_partial_illegible += 1
+                
+                # check box coordinates should never exceed image size
+                # use pillow to find image size
+                # img = Image.open(image['image_path'])
+                image_size = np.array([640, 640])
+
+                if (np.array(box['corners']).max(axis=0) > image_size).any():
+                    print(f"image: {image['image_path']}")
+                    print(f"box: {box}")
 
         dataset_summary.append({
             "dataset_name": dataset_name,

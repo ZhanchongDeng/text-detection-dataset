@@ -15,7 +15,7 @@ report:
 
 preprocess:
 	. venv/bin/activate && \
-	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir /workspace/bobby/resized_td_dataset --config $(CONFIG_FILE) --dataset ICDAR2013 ICDAR2015 ArT SVT MSRA-TD500 TextOCR
+	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir /workspace/bobby/resized_wh --config $(CONFIG_FILE) --dataset ICDAR2013 ICDAR2015 ArT SVT MSRA-TD500
 
 download:
 	. venv/bin/activate && \
