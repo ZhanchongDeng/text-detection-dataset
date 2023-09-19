@@ -1,5 +1,5 @@
-BUILD_DIR=/workspace/bobby/build/
-CONFIG_FILE=runpod.json
+BUILD_DIR=build
+CONFIG_FILE=config.json
 
 generate:
 	. venv/bin/activate && \
@@ -7,7 +7,7 @@ generate:
 
 visualize:
 	. venv/bin/activate && \
-	python3 visualize.py --build-dir $(BUILD_DIR) --silent --num-images 10 --config $(CONFIG_FILE) --dataset MSRA-TD500
+	python3 visualize.py --build-dir $(BUILD_DIR) --verbose --num-images 20 --config $(CONFIG_FILE) --dataset TextOCR
 
 report:
 	. venv/bin/activate && \
@@ -15,7 +15,7 @@ report:
 
 preprocess:
 	. venv/bin/activate && \
-	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir /workspace/bobby/resized_wh --config $(CONFIG_FILE) --dataset ICDAR2013 ICDAR2015 ArT SVT MSRA-TD500
+	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/uber_crop --config $(CONFIG_FILE) --dataset UberText
 
 download:
 	. venv/bin/activate && \

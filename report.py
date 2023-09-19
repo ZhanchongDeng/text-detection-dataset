@@ -29,6 +29,7 @@ def generate_report():
         num_text_instances = 0
         num_illegible = 0
         num_partial_illegible = 0 # only available for Uber-Text
+        num_no_text = 0
 
         for image in dataset_json:
             num_text_instances += len(image["boxes"])
@@ -40,14 +41,16 @@ def generate_report():
                 if dataset_name == constants.UBERTEXT and ("###" in box['text']) and (box['text'] != "###"):
                     num_partial_illegible += 1
                 
+            if len(image['boxes']) == 0:
+                num_no_text += 1
                 # check box coordinates should never exceed image size
                 # use pillow to find image size
                 # img = Image.open(image['image_path'])
-                image_size = np.array([640, 640])
+                # image_size = np.array([640, 640])
 
-                if (np.array(box['corners']).max(axis=0) > image_size).any():
-                    print(f"image: {image['image_path']}")
-                    print(f"box: {box}")
+                # if (np.array(box['corners']).max(axis=0) > image_size).any():
+                #     print(f"image: {image['image_path']}")
+                #     print(f"box: {box}")
 
         dataset_summary.append({
             "dataset_name": dataset_name,
@@ -55,6 +58,7 @@ def generate_report():
             "num_text_instances": num_text_instances,
             "num_illegible": num_illegible,
             "num_partial_illegible": num_partial_illegible,
+            "num_no_text": num_no_text,
         })
 
     df_report = pd.DataFrame(dataset_summary).sort_values(by="num_images")

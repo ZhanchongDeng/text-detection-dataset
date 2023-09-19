@@ -25,7 +25,18 @@ boxes_obj:
 }
 ```
 
-Supported Dataset:
+## :hammer_and_wrench: Build
+First clone the repo,
+```
+git clone --recursive git@github.com:ZhanchongDeng/text-detection-dataset.git
+```
+and install the necessary packages
+```
+cd text-detection-dataset
+make configure
+```
+
+## :information_source: Supported Dataset
 - [x] [ICDAR 2013](https://rrc.cvc.uab.es/?ch=2&com=introduction)
     * 462 images, 1944 text instances
     * mostly horizontal
@@ -80,14 +91,3 @@ Supported Dataset:
 | TextOCR        |        24902 |          1.20234e+06 |          379767 |                       0 |          0.684143 |             48.2828  |
 | UberText       |       117969 |     571534           |          252181 |                   48401 |          0.474079 |              4.84478 |
 | Total          |       170669 |          1.93945e+06 |          666197 |                   48401 |          0.631545 |             11.3638  |
-
-## :hammer_and_wrench: Build
-First clone the repo,
-```
-git clone --recursive git@github.com:ZhanchongDeng/text-detection-dataset.git
-```
-and install the necessary packages
-```
-cd text-detection-dataset
-make configure
-```
