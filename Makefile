@@ -15,7 +15,7 @@ report:
 
 preprocess:
 	. venv/bin/activate && \
-	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/uber_crop --config $(CONFIG_FILE) --dataset UberText
+	python3 preprocess.py --build-dir $(BUILD_DIR) --data-dir build/auto_crop --config $(CONFIG_FILE) --dataset UberText
 
 download:
 	. venv/bin/activate && \
