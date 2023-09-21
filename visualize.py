@@ -33,7 +33,26 @@ def visualize_all():
     for dataset_name in args.dataset:
         inspect_dataset(args.build_dir, dataset_name, args.num_images)
 
+def visualize_one(build_dir:str, dataset_name:str, entry_idx:int):
+    label_json_fp = Path(build_dir) / constants.JSON_DIR / f"{dataset_name}.json"
+    with label_json_fp.open("r") as f:  
+        label_json = json.load(f)
+    
+    np.random.seed(2023)
+    np.random.shuffle(label_json)
 
+    image_path = label_json[entry_idx]["image_path"]
+    logging.warning("gt_path: %s", label_json[entry_idx]["gt_path"])
+    boxes = label_json[entry_idx]["boxes"]
+    image = cv2.imread(image_path)
+    for box in boxes:
+        corners = np.array(box["corners"], dtype=np.int32)
+        cv2.polylines(image, [corners], True, (0, 255, 0), 2)
+        if "text" in box:
+            cv2.putText(image, box["text"], (corners[0][0], corners[0][1]), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2)
+    cv2.imshow(str(Path(image_path).name), image)
+    cv2.waitKey(0)
+    cv2.destroyAllWindows()
 
 def inspect_dataset(build_dir:str, dataset_name:str, num_images):
     '''Randomly select some images, visualize its text boxes and text.
@@ -65,3 +84,4 @@ def inspect_dataset(build_dir:str, dataset_name:str, num_images):
 
 if __name__ == "__main__":
     visualize_all()
+    # visualize_one("build", "UberText", 170)
