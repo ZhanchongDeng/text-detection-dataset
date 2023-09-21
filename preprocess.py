@@ -190,7 +190,7 @@ def preprocess_dataset(data_dir, build_dir, dataset, train_size, seed = 0, fixed
 
         box_sizes = np.array(box_sizes)
         box_size_id = np.argsort(box_sizes[:, 0] * box_sizes[:, 1])
-        box_size_id = box_size_id[::-1].tolist()
+        box_size_id = box_size_id.tolist()
 
 
         while len(box_size_id) > 0:
